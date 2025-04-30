@@ -150,9 +150,14 @@ if 강사명:
         st.warning("해당 강사의 강의가 없습니다.")
     else:
         st.markdown("<div class='highlight-title'>📚 강의 목록</div>", unsafe_allow_html=True)
+        
+        if st.session_state.get("selected_lecture") is None or (
+            st.session_state["selected_lecture"]["강사명"] != 강사명
+        ):
+            st.session_state["selected_lecture"] = filtered.iloc[0]
+            
         chunk_size = 3
         rows = [filtered.iloc[i:i+chunk_size] for i in range(0, len(filtered), chunk_size)]
-
         for row in rows:
             cols = st.columns(chunk_size)
             for i, (_, r) in enumerate(row.iterrows()):
